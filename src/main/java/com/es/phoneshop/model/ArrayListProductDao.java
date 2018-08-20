@@ -28,19 +28,16 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public synchronized Product getProduct(Long id) {
-        Product prod = null;
-        prod = productList.stream()
+        return productList.stream()
                 .filter((p) -> p.getId().equals(id))
                 .findAny()
                 .get();
-        return prod;
     }
 
     public synchronized List<Product> findProducts() {
-        List<Product> arrayList = productList.stream()
+        return productList.stream()
                 .filter((p) -> p.getPrice().compareTo(BigDecimal.ZERO) > 0 && p.getStock() > 0)
                 .collect(Collectors.toList());
-        return arrayList;
     }
 
     public synchronized void save(Product product) {
