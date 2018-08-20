@@ -6,24 +6,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
-    private static ArrayList<Product> productList;
+    private List<Product> productList;
+    private static volatile ArrayListProductDao arrayListProductDao = null;
+    private static Object lock = new Object();
 
-    public ArrayListProductDao() {
-        productList = getInstance();
-        Product product = new Product(1l, "code", "decription", new BigDecimal(123), 1);
-        save(product);
-        Product product1 = new Product(1l, "code", "decription", new BigDecimal(-1), 1);
-        save(product1);
+    private ArrayListProductDao() {
+        productList = new ArrayList<>();
+        save(new Product(1L, "code", "decription", new BigDecimal(123), 1));
+        save(new Product(2L, "code", "decription", new BigDecimal(-1), 1));
     }
 
-    public static ArrayList<Product> getInstance() {
-        if (productList == null) {
-            synchronized (Product.class) {
-                if (productList == null)
-                    productList = new ArrayList<Product>();
+    public static ArrayListProductDao getInstance() {
+        if (arrayListProductDao == null) {
+            synchronized (lock) {
+                if (arrayListProductDao == null) {
+                    arrayListProductDao = new ArrayListProductDao();
+                }
             }
         }
-        return productList;
+        return arrayListProductDao;
     }
 
     public synchronized Product getProduct(Long id) {
@@ -33,12 +34,17 @@ public class ArrayListProductDao implements ProductDao {
                 prod = product;
         }
         return prod;*/
-        prod = productList.stream().filter((p) -> p.getId().equals(id)).findAny().get();
+        prod = productList.stream()
+                .filter((p) -> p.getId().equals(id))
+                .findAny()
+                .get();
         return prod;
     }
 
     public synchronized List<Product> findProducts() {
-        List<Product> arrayList = productList.stream().filter((p) -> p.getPrice().compareTo(BigDecimal.ZERO) > 0 && p.getStock() > 0).collect(Collectors.toList());
+        List<Product> arrayList = productList.stream()
+                .filter((p) -> p.getPrice().compareTo(BigDecimal.ZERO) > 0 && p.getStock() > 0)
+                .collect(Collectors.toList());
         return arrayList;
     }
 
@@ -47,10 +53,11 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public synchronized void remove(Long id) {
-        for (int i = 0; i < productList.size(); i++) {
+       /* for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getId().equals(id)) {
                 productList.remove(i);
             }
-        }
+        }*/
+        productList.remove(getProduct(id));
     }
 }
