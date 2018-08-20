@@ -29,11 +29,6 @@ public class ArrayListProductDao implements ProductDao {
 
     public synchronized Product getProduct(Long id) {
         Product prod = null;
-      /*  for (Product product : productList) {
-            if (product.getId().equals(id))
-                prod = product;
-        }
-        return prod;*/
         prod = productList.stream()
                 .filter((p) -> p.getId().equals(id))
                 .findAny()
@@ -53,11 +48,6 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public synchronized void remove(Long id) {
-       /* for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).getId().equals(id)) {
-                productList.remove(i);
-            }
-        }*/
         productList.remove(getProduct(id));
     }
 }
