@@ -12,8 +12,6 @@ public class ArrayListProductDao implements ProductDao {
 
     private ArrayListProductDao() {
         productList = new ArrayList<>();
-        save(new Product(1L, "code", "decription", new BigDecimal(123), 1));
-        save(new Product(2L, "code", "decription", new BigDecimal(-1), 1));
     }
 
     public static ArrayListProductDao getInstance() {
@@ -31,7 +29,7 @@ public class ArrayListProductDao implements ProductDao {
         return productList.stream()
                 .filter((p) -> p.getId().equals(id))
                 .findAny()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("There is no element with such id"));
     }
 
     public synchronized List<Product> findProducts() {
