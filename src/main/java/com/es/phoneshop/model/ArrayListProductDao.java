@@ -3,12 +3,18 @@ package com.es.phoneshop.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
     private List<Product> productList;
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
     private static volatile ArrayListProductDao arrayListProductDao = null;
+
     private static Object lock = new Object();
+
 
     private ArrayListProductDao() {
         productList = new ArrayList<>();
@@ -39,7 +45,13 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public synchronized void save(Product product) {
-        productList.add(product);
+        readWriteLock.writeLock().lock();
+        try {
+            productList.remove(product);
+            productList.add(product);
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public synchronized void remove(Long id) {

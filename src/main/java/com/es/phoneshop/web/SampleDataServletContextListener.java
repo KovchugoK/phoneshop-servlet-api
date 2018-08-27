@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 public class SampleDataServletContextListener implements ServletContextListener {
     private ProductDao productDao;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         productDao = ArrayListProductDao.getInstance();

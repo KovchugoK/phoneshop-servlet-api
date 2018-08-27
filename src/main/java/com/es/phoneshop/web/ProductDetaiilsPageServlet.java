@@ -10,20 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ProductDetaiilsPageServlet extends HttpServlet {
-    ProductDao arrayListProductDao;
+    private ProductDao productDao;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        arrayListProductDao = ArrayListProductDao.getInstance();
+        productDao = ArrayListProductDao.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("product", productDao.getProduct(Long.valueOf(getLastPathParameter(request))));
+        request.getRequestDispatcher("/WEB-INF/pages/product.jsp").forward(request, response);
+    }
+
+    private String getLastPathParameter(HttpServletRequest request) {
         String uri = request.getRequestURI();
         int index = request.getRequestURI().lastIndexOf("/");
-        String idString = uri.substring(index + 1);
-        request.setAttribute("product", arrayListProductDao.getProduct(Long.valueOf(idString)));
-        request.getRequestDispatcher("/WEB-INF/pages/product.jsp").forward(request, response);
+        return uri.substring(index + 1);
     }
 }

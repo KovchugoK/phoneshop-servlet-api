@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductListServlet extends HttpServlet {
-    ProductDao arrayListProductDao;
+    private ProductDao arrayListProductDao;
 
 
     @Override
