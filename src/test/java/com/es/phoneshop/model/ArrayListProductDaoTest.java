@@ -21,9 +21,10 @@ public class ArrayListProductDaoTest {
 
     @Test
     public void getProduct() throws Exception {
-        productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), 1));
+        long numId = 1L;
+        productDao.save(new Product(numId, "code1", "decription1", new BigDecimal(10), 1));
 
-        Long id = productDao.getProduct(1L).getId();
+        Long id = productDao.getProduct(numId).getId();
 
         assertEquals(1, id.longValue());
     }
@@ -33,34 +34,30 @@ public class ArrayListProductDaoTest {
         productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), 1));
 
         List<Product> list = productDao.findProducts();
-        boolean isEmpty = list.isEmpty();
 
-        assertFalse(isEmpty);
+        assertFalse(list.isEmpty());
     }
 
     @Test
     public void save() throws Exception {
         long id = 4L;
-        Product prod;
+
 
         productDao.save(new Product(id, "code2", "decription2", new BigDecimal(10), 1));
-        prod = productDao.getProduct(id);
-
-        assertNotNull(prod);
-
-        productDao.save(new Product(id, "code2", "decription2", new BigDecimal(10), 1));
+        Product prod = productDao.getProduct(id);
 
         assertNotNull(prod);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void remove() throws Exception {
-        long id = 4L;
+       long id = 4L;
+
+        productDao.save(new Product(id, "code2", "decription2", new BigDecimal(10), 1));
 
         productDao.remove(id);
-        Product prod = productDao.getProduct(id);
+        productDao.getProduct(id);
 
-        assertNull(prod);
     }
 
 }

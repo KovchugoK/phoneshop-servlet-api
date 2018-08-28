@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 public class ArrayListProductDao implements ProductDao {
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
     private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     private static volatile ArrayListProductDao arrayListProductDao = null;
@@ -17,7 +17,6 @@ public class ArrayListProductDao implements ProductDao {
 
 
     private ArrayListProductDao() {
-        productList = new ArrayList<>();
     }
 
     public static ArrayListProductDao getInstance() {
@@ -45,13 +44,9 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public synchronized void save(Product product) {
-        readWriteLock.writeLock().lock();
-        try {
             productList.remove(product);
             productList.add(product);
-        } finally {
-            readWriteLock.writeLock().unlock();
-        }
+
     }
 
     public synchronized void remove(Long id) {
