@@ -3,6 +3,7 @@ package com.es.phoneshop.model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 public class CartService {
     private static final String CART_ATTRIBUTE_NAME = "cart";
@@ -39,14 +40,15 @@ public class CartService {
     public void add(Cart cart, Product product, int quantity) {
         List<CartItem> cartItems = cart.getCartItems();
 
-        CartItem cartItem = cartItems.stream()
+        Optional cartItemOptional = cartItems.stream()
                 .filter(p -> p.getProduct().equals(product))
-                .findAny().orElse(null);
-        if(cartItem == null) {
-            cart.getCartItems().add(new CartItem(product, quantity));
+                .findAny();
+        if(cartItemOptional.isPresent()) {
+            CartItem cartItem = (CartItem)cartItemOptional.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
         else{
-            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cart.getCartItems().add(new CartItem(product, quantity));
         }
     }
 }
