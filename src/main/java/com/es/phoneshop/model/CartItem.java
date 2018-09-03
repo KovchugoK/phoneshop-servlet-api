@@ -2,7 +2,7 @@ package com.es.phoneshop.model;
 
 public class CartItem {
     private Product product;
-    private int quantity;
+    private int quantity = 1;
 
     public Product getProduct() {
         return product;
@@ -14,7 +14,7 @@ public class CartItem {
 
     public CartItem(Product product, int quantity) {
         this.product = product;
-        this.quantity = quantity;
+        this.quantity = quantity++;
     }
 
     public void setProduct(Product product) {

@@ -1,3 +1,6 @@
+<style>
+    <jsp:include page="/WEB-INF/style/style.css" />
+</style>
 <header>
     <a href="${pageContext.servletContext.contextPath}/products"><img
             src="https://banner2.kisspng.com/20180415/lee/kisspng-logo-home-business-phones-email-mobile-phones-phone-5ad3bc1f74d414.8213882215238256954785.jpg"

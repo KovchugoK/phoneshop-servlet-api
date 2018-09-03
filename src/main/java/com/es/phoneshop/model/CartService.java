@@ -2,6 +2,7 @@ package com.es.phoneshop.model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public class CartService {
     private static final String CART_ATTRIBUTE_NAME = "cart";
@@ -36,6 +37,16 @@ public class CartService {
     }
 
     public void add(Cart cart, Product product, int quantity) {
-        cart.getCartItems().add(new CartItem(product, quantity));
+        List<CartItem> cartItems = cart.getCartItems();
+
+        CartItem cartItem = cartItems.stream()
+                .filter(p -> p.getProduct().equals(product))
+                .findAny().orElse(null);
+        if(cartItem == null) {
+            cart.getCartItems().add(new CartItem(product, quantity));
+        }
+        else{
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+        }
     }
 }

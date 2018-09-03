@@ -12,6 +12,8 @@ header {
 header h2 {
     display: grid;
     justify-content: flex-start;
+    top: 50%;
+    margin-top: 0em;
     font-size: 20px;
     margin-left: 2vw;
     padding: 8px;
