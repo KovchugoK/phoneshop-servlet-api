@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="cart" type="com.es.phoneshop.model.Cart" scope="request"/>
 <html>
 <head>
-    <title>Info</title>
+    <title>Cart</title>
     <style type="text/css">
         <%@include file="/WEB-INF/style/style.css" %>
     </style>
@@ -25,16 +25,16 @@
             <td>Stock</td>
         </tr>
         </thead>
-        <c:forEach var="product" items="${products}">
+        <c:forEach var="cartItems" items="${cart.cartItems}">
             <tr>
-                <td>${product.id}</td>
+                <td>${cartItems.product.id}</td>
                 <td>
-                    <a href="${pageContext.servletContext.contextPath}/products/${product.id}">${product.code}</a>
+                    <a href="${pageContext.servletContext.contextPath}/products/${cartItems.product.id}">${cartItems.product.code}</a>
                 </td>
-                <td>${product.description}</td>
-                <td>${product.price}</td>
-                <td>${product.currency}</td>
-                <td>${product.stock}</td>
+                <td>${cartItems.product.description}</td>
+                <td>${cartItems.product.price}</td>
+                <td>${cartItems.product.currency}</td>
+                <td>${cartItems.product.stock}</td>
             </tr>
         </c:forEach>
     </table>

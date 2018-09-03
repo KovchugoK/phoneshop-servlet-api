@@ -19,11 +19,12 @@ public class Product {
         this.id = id;
     }
 
-    public Product(Long id, String code, String description, BigDecimal price, Integer stock) {
+    public Product(Long id, String code, String description, BigDecimal price, Currency currency, Integer stock) {
         this.id = id;
         this.code = code;
         this.description = description;
         this.price = price;
+        this.currency = currency;
         this.stock = stock;
     }
 

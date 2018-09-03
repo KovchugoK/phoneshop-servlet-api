@@ -6,6 +6,8 @@ import com.es.phoneshop.model.ProductDao;
 
 import javax.servlet.*;
 import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Locale;
 
 public class SampleDataServletContextListener implements ServletContextListener {
     private ProductDao productDao;
@@ -13,9 +15,9 @@ public class SampleDataServletContextListener implements ServletContextListener 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         productDao = ArrayListProductDao.getInstance();
-        productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), 1));
-        productDao.save(new Product(2L, "code2", "decription2", new BigDecimal(10), 1));
-        productDao.save(new Product(3L, "code3", "decription3", new BigDecimal(10), 1));
+        productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(2L, "code2", "decription2", new BigDecimal(10),Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(3L, "code3", "decription3", new BigDecimal(10),Currency.getInstance(Locale.US), 1));
     }
 
     @Override

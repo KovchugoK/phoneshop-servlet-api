@@ -1,0 +1,46 @@
+header {
+    position: fixed;
+    width: calc(100vw - 20px);
+    height: 40px;
+    color: #000000;
+    display: grid;
+    grid-template-columns: 50px auto 70px;
+    font-size: 18px;
+    z-index: 1;
+}
+
+header h2 {
+    display: grid;
+    justify-content: flex-start;
+    font-size: 20px;
+    margin-left: 2vw;
+    padding: 8px;
+    margin-bottom: 100%;
+}
+
+header img {
+    display: grid;
+    margin-left: 1vw;
+}
+
+body {
+    display: grid;
+    grid-template-rows: 60px auto auto;
+    grid-gap: 1px ;
+    height: 95%;
+}
+
+table {
+    display: grid;
+    width: 50%;
+    text-align: left;
+}
+
+footer {
+    display: grid;
+    text-align: right;
+
+}
+.footer{
+    align-self: flex-end;
+}
