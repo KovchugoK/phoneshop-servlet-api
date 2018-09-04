@@ -25,12 +25,7 @@
 
         <tr>
             <td>Price</td>
-            <td>${product.price}</td>
-        </tr>
-
-        <tr>
-            <td>Currency</td>
-            <td>${product.currency}</td>
+            <td>${product.price} ${product.currency}</td>
         </tr>
         <tr>
             <td>Stock</td>

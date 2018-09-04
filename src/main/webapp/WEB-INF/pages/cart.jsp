@@ -25,7 +25,7 @@
             <tr>
                 <td>${cartItems.product.id}</td>
                 <td>
-                    <a href="${pageContext.servletContext.contextPath}/products/${cartItems.product.id}">${cartItems.product.code}</a>
+                    <a href="<c:url value = "/products"/>/${cartItems.product.id}">${cartItems.product.code}</a>
                 </td>
                 <td>${cartItems.product.description}</td>
                 <td>${cartItems.product.price} ${cartItems.product.currency}</td>
