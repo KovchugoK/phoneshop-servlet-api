@@ -40,11 +40,11 @@ public class CartService {
     public void add(Cart cart, Product product, int quantity) {
         List<CartItem> cartItems = cart.getCartItems();
 
-        Optional cartItemOptional = cartItems.stream()
+        Optional<CartItem> cartItemOptional = cartItems.stream()
                 .filter(p -> p.getProduct().equals(product))
                 .findAny();
         if(cartItemOptional.isPresent()) {
-            CartItem cartItem = (CartItem)cartItemOptional.get();
+            CartItem cartItem = cartItemOptional.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
         else{
