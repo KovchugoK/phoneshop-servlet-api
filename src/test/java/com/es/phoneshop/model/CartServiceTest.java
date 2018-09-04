@@ -25,10 +25,9 @@ public class CartServiceTest {
     @Test
     public void add() throws Exception {
         Cart cart = new Cart();
-        ArrayListProductDao productDao = ArrayListProductDao.getInstance();
-        
-        productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
-        cartService.add(cart, productDao.findProducts().get(0), 1);
+        Product product = new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1);
+
+        cartService.add(cart, product, 1);
 
         assertFalse(cart.getCartItems().isEmpty());
     }

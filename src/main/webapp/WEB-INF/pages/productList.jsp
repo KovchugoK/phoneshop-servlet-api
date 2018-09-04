@@ -4,14 +4,11 @@
 <jsp:useBean id="products" type="java.util.ArrayList" scope="request"/>
 <html>
 <head>
-    <title>Info</title>
-    <style type="text/css">
-        <%@include file="/WEB-INF/style/style.css" %>
-    </style>
+    <title>Product List</title>
 </head>
 <body class="bodyStile">
 <div>
-    <%@include file="/WEB-INF/pages/header.jsp" %>
+    <jsp:include page="/WEB-INF/pages/header.jsp" />
 </div>
 <div>
     <table>
@@ -29,7 +26,7 @@
             <tr>
                 <td>${product.id}</td>
                 <td>
-                    <a href="${pageContext.servletContext.contextPath}/products/${product.id}">${product.code}</a>
+                    <a href="<c:url value = "/products"/>/${product.id}">${product.code}</a>
                 </td>
                 <td>${product.description}</td>
                 <td>${product.price}</td>
@@ -40,7 +37,7 @@
     </table>
 </div>
 <div class="footer">
-    <%@include file="/WEB-INF/pages/footer.jsp" %>
+    <jsp:include page="/WEB-INF/pages/footer.jsp" />
 </div>
 </body>
 </html>

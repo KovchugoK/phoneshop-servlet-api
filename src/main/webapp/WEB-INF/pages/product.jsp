@@ -1,13 +1,10 @@
 <html>
 <head>
     <title>Info</title>
-    <style type="text/css">
-        <%@include file="/WEB-INF/style/style.css" %>
-    </style>
 </head>
 <body class="bodyStile">
 <div>
-    <%@include file="/WEB-INF/pages/header.jsp" %>
+    <jsp:include page="/WEB-INF/pages/header.jsp" />
 </div>
 <div>
     <table>
@@ -28,12 +25,7 @@
 
         <tr>
             <td>Price</td>
-            <td>${product.price}</td>
-        </tr>
-
-        <tr>
-            <td>Currency</td>
-            <td>${product.currency}</td>
+            <td>${product.price} ${product.currency}</td>
         </tr>
         <tr>
             <td>Stock</td>
@@ -43,7 +35,7 @@
     </table>
 </div>
 <div class="footer">
-    <%@include file="/WEB-INF/pages/footer.jsp" %>
+    <jsp:include page="/WEB-INF/pages/footer.jsp" />
 </div>
 </body>
 </html>
