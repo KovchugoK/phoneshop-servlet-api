@@ -30,7 +30,7 @@ public class CartService {
         if (cart == null) {
             cart = new Cart();
             for (Product product : ArrayListProductDao.getInstance().findProducts()) {
-                add(cart, product, 1);
+                add(cart, product, 0);
             }
             session.setAttribute(CART_ATTRIBUTE_NAME, cart);
         }

@@ -2,6 +2,7 @@ package com.es.phoneshop.web;
 
 import com.es.phoneshop.model.*;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ProductDetaiilsPageServlet extends HttpServlet {
     private ProductDao productDao;
@@ -34,13 +37,15 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         Long productId = Long.valueOf(getLastPathParameter(request));
         Product product = productDao.getProduct(productId);
         Integer quantity;
+        Locale locale = request.getLocale();
+        ResourceBundle res = ResourceBundle.getBundle("messages",locale);
         try {
-            quantity = DecimalFormat.getInstance(request.getLocale()).parse(request.getParameter("quantity")).intValue();
+            quantity = DecimalFormat.getInstance(locale).parse(request.getParameter("quantity")).intValue();
             if (quantity < 0) {
                 throw new IllegalArgumentException();
             }
         } catch (ParseException e) {
-            exeptionCase(product, request, response, "Not a number");
+            exeptionCase(product, request, response, res.getString("error.number.format"));
             return;
         } catch (IllegalArgumentException e) {
             exeptionCase(product, request, response, "Number must being > 0");
@@ -50,7 +55,8 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         cartService.add(cart, product, quantity);
 
         request.setAttribute("addQuantity", quantity);
-        showPage(product, request, response);
+        //showPage(product, request, response);
+        response.sendRedirect(request.getRequestURI() + "?addQuantity=" + quantity );
     }
 
     private void showPage(Product product, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

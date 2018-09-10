@@ -1,15 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Info</title>
+    <meta charset="utf-8">
 </head>
 <body class="bodyStile">
 <div>
     <jsp:include page="/WEB-INF/pages/header.jsp"/>
 </div>
 <div>
-    <form method="post">
+    <form method="post" action="<c:url value="/products"/>/${product.id}">
         <c:if test = "${not empty addQuantity}">
             Added ${addQuantity} successfully.
         </c:if>
