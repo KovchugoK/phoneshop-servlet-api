@@ -1,27 +1,67 @@
 package com.es.phoneshop.web;
 
-import com.es.phoneshop.model.ArrayListProductDao;
-import com.es.phoneshop.model.ProductDao;
+import com.es.phoneshop.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 public class ProductDetaiilsPageServlet extends HttpServlet {
     private ProductDao productDao;
+    private CartService cartService;
 
     @Override
     public void init() throws ServletException {
         super.init();
         productDao = ArrayListProductDao.getInstance();
+        cartService = CartService.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("product", productDao.getProduct(Long.valueOf(getLastPathParameter(request))));
+        Long productId = Long.valueOf(getLastPathParameter(request));
+        Product product = productDao.getProduct(productId);
+        showPage(product, request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Long productId = Long.valueOf(getLastPathParameter(request));
+        Product product = productDao.getProduct(productId);
+        Integer quantity;
+        try {
+            quantity = DecimalFormat.getInstance(request.getLocale()).parse(request.getParameter("quantity")).intValue();
+            if (quantity < 0) {
+                throw new IllegalArgumentException();
+            }
+        } catch (ParseException e) {
+            exeptionCase(product, request, response, "Not a number");
+            return;
+        } catch (IllegalArgumentException e) {
+            exeptionCase(product, request, response, "Number must being > 0");
+            return;
+        }
+        Cart cart = cartService.getCart(request);
+        cartService.add(cart, product, quantity);
+
+        request.setAttribute("addQuantity", quantity);
+        showPage(product, request, response);
+    }
+
+    private void showPage(Product product, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("product", product);
         request.getRequestDispatcher("/WEB-INF/pages/product.jsp").forward(request, response);
+    }
+
+    private void exeptionCase(Product product, HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+        request.setAttribute("error", Boolean.TRUE);
+        request.setAttribute("errorText", message);
+        showPage(product, request, response);
     }
 
     private String getLastPathParameter(HttpServletRequest request) {
