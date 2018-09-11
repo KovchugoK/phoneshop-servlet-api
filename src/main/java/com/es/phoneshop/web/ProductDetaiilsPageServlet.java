@@ -39,7 +39,7 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         Integer quantity;
         Locale.setDefault(new Locale("en", "US"));
         Locale locale = request.getLocale();
-        ResourceBundle res = ResourceBundle.getBundle("messages", locale);
+        ResourceBundle res = ResourceBundle.getBundle("message", locale);
         try {
             quantity = DecimalFormat.getInstance(locale).parse(request.getParameter("quantity")).intValue();
             if (quantity < 0) {
