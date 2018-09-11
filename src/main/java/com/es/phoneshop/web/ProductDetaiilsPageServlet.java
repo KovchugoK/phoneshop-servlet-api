@@ -37,15 +37,17 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         Long productId = Long.valueOf(getLastPathParameter(request));
         Product product = productDao.getProduct(productId);
         Integer quantity;
+        Locale.setDefault(new Locale("en", "US"));
         Locale locale = request.getLocale();
-        ResourceBundle res = ResourceBundle.getBundle("messages",locale);
+        ResourceBundle res = ResourceBundle.getBundle("messages", locale);
         try {
             quantity = DecimalFormat.getInstance(locale).parse(request.getParameter("quantity")).intValue();
             if (quantity < 0) {
                 throw new IllegalArgumentException();
             }
         } catch (ParseException e) {
-            exeptionCase(product, request, response, res.getString("error.number.format"));
+            String st = res.getString("error.number.format");
+            exeptionCase(product, request, response, st);
             return;
         } catch (IllegalArgumentException e) {
             exeptionCase(product, request, response, "Number must being > 0");
@@ -55,8 +57,7 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         cartService.add(cart, product, quantity);
 
         request.setAttribute("addQuantity", quantity);
-        //showPage(product, request, response);
-        response.sendRedirect(request.getRequestURI() + "?addQuantity=" + quantity );
+        response.sendRedirect(request.getRequestURI() + "?addQuantity=" + quantity);
     }
 
     private void showPage(Product product, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
