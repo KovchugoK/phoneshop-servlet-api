@@ -29,9 +29,6 @@ public class CartService {
         Cart cart = (Cart) session.getAttribute(CART_ATTRIBUTE_NAME);
         if (cart == null) {
             cart = new Cart();
-            for (Product product : ArrayListProductDao.getInstance().findProducts()) {
-                add(cart, product, 1);
-            }
             session.setAttribute(CART_ATTRIBUTE_NAME, cart);
         }
         return cart;
@@ -43,11 +40,10 @@ public class CartService {
         Optional<CartItem> cartItemOptional = cartItems.stream()
                 .filter(p -> p.getProduct().equals(product))
                 .findAny();
-        if(cartItemOptional.isPresent()) {
+        if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
-        }
-        else{
+        } else {
             cart.getCartItems().add(new CartItem(product, quantity));
         }
     }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="cart" type="com.es.phoneshop.model.Cart" scope="request"/>
 <html>
@@ -28,8 +29,8 @@
                     <a href="<c:url value = "/products"/>/${cartItems.product.id}">${cartItems.product.code}</a>
                 </td>
                 <td>${cartItems.product.description}</td>
-                <td>${cartItems.product.price} ${cartItems.product.currency}</td>
-                <td>${cartItems.quantity}</td>
+                <td><fmt:formatNumber value="${cartItems.product.price}"/> ${cartItems.product.currency}</td>
+                <td><fmt:formatNumber value="${cartItems.quantity}"/></td>
             </tr>
         </c:forEach>
     </table>
