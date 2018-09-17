@@ -34,7 +34,16 @@ public class CartService {
         return cart;
     }
 
-    public void add(Cart cart, Product product, int quantity) {
+    public void add(HttpServletRequest request, Product product, int quantity) {
+        addOrUpdate(request, product, quantity, true);
+    }
+
+    public void update(HttpServletRequest request, Product product, int quantity) {
+        addOrUpdate(request, product, quantity, false);
+    }
+
+    private void addOrUpdate(HttpServletRequest request, Product product, int quantity, boolean add) {
+        Cart cart = getCart(request);
         List<CartItem> cartItems = cart.getCartItems();
 
         Optional<CartItem> cartItemOptional = cartItems.stream()
@@ -42,9 +51,15 @@ public class CartService {
                 .findAny();
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            int newQuantity = add ? cartItem.getQuantity() + quantity : quantity;
+            cartItem.setQuantity(newQuantity);
         } else {
             cart.getCartItems().add(new CartItem(product, quantity));
         }
+    }
+
+    public void deleteProduct(Cart cart, Product product, int count) {
+        List<CartItem> cartItems = cart.getCartItems();
+        cartItems.remove(cartItems.get(count));
     }
 }
