@@ -50,7 +50,7 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
             exeptionCase(product, request, response, st);
             return;
         } catch (IllegalArgumentException e) {
-            exeptionCase(product, request, response, "Number must being > 0");
+            exeptionCase(product, request, response, "error.number.less.then.zero");
             return;
         }
         Cart cart = cartService.getCart(request);

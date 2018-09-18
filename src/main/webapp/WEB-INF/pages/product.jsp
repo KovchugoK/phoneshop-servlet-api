@@ -40,7 +40,6 @@
                 <td>${product.stock}</td>
             </tr>
             <tr>
-
                 <td>
                     <input type="text" name="quantity" id="quantity" value="${empty param.quantity ? 1 : param.quantity}"><br>
                     <c:if test = "${error}">

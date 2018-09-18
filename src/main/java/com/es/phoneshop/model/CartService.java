@@ -35,6 +35,14 @@ public class CartService {
     }
 
     public void add(Cart cart, Product product, int quantity) {
+        addOrUpdate(cart, product, quantity, true);
+    }
+
+    public void update(Cart cart, Product product, int quantity) {
+        addOrUpdate(cart, product, quantity, false);
+    }
+
+    private void addOrUpdate(Cart cart, Product product, int quantity, boolean add) {
         List<CartItem> cartItems = cart.getCartItems();
 
         Optional<CartItem> cartItemOptional = cartItems.stream()
@@ -42,9 +50,15 @@ public class CartService {
                 .findAny();
         if (cartItemOptional.isPresent()) {
             CartItem cartItem = cartItemOptional.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            int newQuantity = add ? cartItem.getQuantity() + quantity : quantity;
+            cartItem.setQuantity(newQuantity);
         } else {
             cart.getCartItems().add(new CartItem(product, quantity));
         }
+    }
+
+    public void deleteProduct(Cart cart, Product product, int index) {
+        List<CartItem> cartItems = cart.getCartItems();
+        cartItems.remove(index);
     }
 }
