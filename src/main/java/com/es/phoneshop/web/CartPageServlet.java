@@ -34,26 +34,29 @@ public class CartPageServlet extends HttpServlet {
         String[] productIds = request.getParameterValues("productId");
         String[] quantities = request.getParameterValues("quantity");
         String[] errors = new String[productIds.length];
-        String[] deletsValue = request.getParameterValues("delete");
+        String deleteValue = request.getParameter("delete");
         Locale.setDefault(new Locale("en", "US"));
         Locale locale = request.getLocale();
         ResourceBundle res = ResourceBundle.getBundle("message", locale);
         Cart cart = cartService.getCart(request);
         int quantity;
+        Product product;
 
-        if (deletsValue != null) {
-            int deletedProductId = Integer.valueOf(deletsValue[0]);
+        if (deleteValue != null) {
+            int deleteProductId = Integer.valueOf(deleteValue);
+            product = cartService.getCart(request).getCartItems().get(deleteProductId).getProduct();
             request.setAttribute("sucsess", true);
-            cartService.deleteProduct(cart, cartService.getCart(request).getCartItems().get(deletedProductId).getProduct(), deletedProductId);
+            request.setAttribute("sucsessMsg", res.getString("sucsess.msg"));
+            cartService.deleteProduct(cart, product, deleteProductId);
         } else {
             for (int i = 0; i < productIds.length; i++) {
-                Product product = productDao.getProduct(Long.valueOf(productIds[i]));
+                product = productDao.getProduct(Long.valueOf(productIds[i]));
                 try {
                     quantity = DecimalFormat.getInstance(locale).parse(quantities[i]).intValue();
                     if (quantity < 0) {
                         throw new IllegalArgumentException();
                     }
-                    cartService.update(request, product, quantity);
+                    cartService.update(cart, product, quantity);
                 } catch (ParseException e) {
                     errors[i] = res.getString("error.number.format");
                     hasErrors = true;
@@ -67,9 +70,9 @@ public class CartPageServlet extends HttpServlet {
             request.setAttribute("quantities", quantities);
             request.setAttribute("error", true);
             request.setAttribute("errors", errors);
-            doGet(request, response);
+            showPage(cart, request, response);
         } else {
-            response.sendRedirect("cart");
+            doGet(request, response);
         }
     }
 

@@ -34,16 +34,15 @@ public class CartService {
         return cart;
     }
 
-    public void add(HttpServletRequest request, Product product, int quantity) {
-        addOrUpdate(request, product, quantity, true);
+    public void add(Cart cart, Product product, int quantity) {
+        addOrUpdate(cart, product, quantity, true);
     }
 
-    public void update(HttpServletRequest request, Product product, int quantity) {
-        addOrUpdate(request, product, quantity, false);
+    public void update(Cart cart, Product product, int quantity) {
+        addOrUpdate(cart, product, quantity, false);
     }
 
-    private void addOrUpdate(HttpServletRequest request, Product product, int quantity, boolean add) {
-        Cart cart = getCart(request);
+    private void addOrUpdate(Cart cart, Product product, int quantity, boolean add) {
         List<CartItem> cartItems = cart.getCartItems();
 
         Optional<CartItem> cartItemOptional = cartItems.stream()
@@ -58,8 +57,8 @@ public class CartService {
         }
     }
 
-    public void deleteProduct(Cart cart, Product product, int count) {
+    public void deleteProduct(Cart cart, Product product, int index) {
         List<CartItem> cartItems = cart.getCartItems();
-        cartItems.remove(cartItems.get(count));
+        cartItems.remove(cartItems.get(index));
     }
 }

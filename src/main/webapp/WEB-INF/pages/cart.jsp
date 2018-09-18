@@ -13,6 +13,9 @@
 </div>
 <div>
     <form method="post">
+        <c:if test="${sucsess}">
+            ${sucsessMsg}
+        </c:if>
         <table>
             <thead>
             <tr>

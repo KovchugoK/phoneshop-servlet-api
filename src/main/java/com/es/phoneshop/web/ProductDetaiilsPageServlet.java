@@ -54,7 +54,7 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
             return;
         }
         Cart cart = cartService.getCart(request);
-        cartService.add(request, product, quantity);
+        cartService.add(cart, product, quantity);
 
         request.setAttribute("addQuantity", quantity);
         response.sendRedirect(request.getRequestURI() + "?addQuantity=" + quantity);
