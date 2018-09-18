@@ -1,6 +1,5 @@
 package com.es.phoneshop.model;
 
-import com.sun.deploy.net.HttpRequest;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -13,18 +12,15 @@ public class CartServiceTest {
     private CartService cartService = CartService.getInstance();
 
     @Test
-    public void getInstance() throws Exception {
+    public void getInstance() {
         CartService instance = CartService.getInstance();
 
         assertNotNull(instance);
     }
 
-    @Test
-    public void getCart() throws Exception {
-    }
 
     @Test
-    public void add() throws Exception {
+    public void add() {
         Cart cart = new Cart();
         Product product = new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1);
 
@@ -33,19 +29,21 @@ public class CartServiceTest {
         assertFalse(cart.getCartItems().isEmpty());
     }
 
-    public void update() throws Exception {
+    @Test
+    public void update() {
         Cart cart = new Cart();
         Product product = new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1);
 
         cartService.update(cart, product, 1);
-  
+
         assertFalse(cart.getCartItems().isEmpty());
     }
 
-
-    public void delete() throws Exception {
+    @Test
+    public void delete() {
         Cart cart = new Cart();
         Product product = new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1);
+        cartService.add(cart, product, 1);
 
         cartService.deleteProduct(cart, product, 0);
 

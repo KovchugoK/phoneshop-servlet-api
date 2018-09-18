@@ -43,11 +43,11 @@ public class CartPageServlet extends HttpServlet {
         Product product;
 
         if (deleteValue != null) {
-            int deleteProductId = Integer.valueOf(deleteValue);
-            product = cartService.getCart(request).getCartItems().get(deleteProductId).getProduct();
+            int deleteIndex = Integer.valueOf(deleteValue);
+            product = cartService.getCart(request).getCartItems().get(deleteIndex).getProduct();
             request.setAttribute("sucsess", true);
-            request.setAttribute("sucsessMsg", res.getString("sucsess.msg"));
-            cartService.deleteProduct(cart, product, deleteProductId);
+            request.setAttribute("sucsessMsg", res.getString("sucsess.msg.delete"));
+            cartService.deleteProduct(cart, product, deleteIndex);
         } else {
             for (int i = 0; i < productIds.length; i++) {
                 product = productDao.getProduct(Long.valueOf(productIds[i]));
@@ -57,6 +57,8 @@ public class CartPageServlet extends HttpServlet {
                         throw new IllegalArgumentException();
                     }
                     cartService.update(cart, product, quantity);
+                    request.setAttribute("sucsess", true);
+                    request.setAttribute("sucsessMsg", res.getString("sucsess.msg.update"));
                 } catch (ParseException e) {
                     errors[i] = res.getString("error.number.format");
                     hasErrors = true;

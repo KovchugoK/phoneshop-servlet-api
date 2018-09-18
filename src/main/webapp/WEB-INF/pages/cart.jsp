@@ -38,7 +38,7 @@
                         <input type="hidden" name="productId" value="${cartItems.product.id}">
                         <input type="text" id="quantity${status.index}" name="quantity"
                                value="${quantities[status.index] != null ? quantities[status.index] : cartItems.quantity}">
-                        <c:if test="${not empty errors}">
+                        <c:if test="${not empty errors && not empty errors[status.index]}">
                             <label for="quantity${status.index}">${errors[status.index]}</label>
                         </c:if>
                     </td>

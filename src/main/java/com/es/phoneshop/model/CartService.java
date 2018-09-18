@@ -59,6 +59,6 @@ public class CartService {
 
     public void deleteProduct(Cart cart, Product product, int index) {
         List<CartItem> cartItems = cart.getCartItems();
-        cartItems.remove(cartItems.get(index));
+        cartItems.remove(index);
     }
 }
