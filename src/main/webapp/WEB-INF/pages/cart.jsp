@@ -50,6 +50,7 @@
         </table>
         <input type="submit" value="Update">
     </form>
+    <button onClick='location.href="<c:url value="/checkout"/>"'>Buy</button>
 </div>
 <div class="footer">
     <jsp:include page="/WEB-INF/pages/footer.jsp"/>

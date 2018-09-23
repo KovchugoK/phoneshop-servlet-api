@@ -5,6 +5,15 @@
          version="3.1">
     <display-name>Phoneshop servlet api training</display-name>
 
+    <filter>
+        <filter-name>dosFilter</filter-name>
+        <filter-class>com.es.phoneshop.web.DosFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>dosFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <listener>
         <listener-class>com.es.phoneshop.web.SampleDataServletContextListener</listener-class>
     </listener>
@@ -37,6 +46,26 @@
     <servlet-mapping>
         <servlet-name>cart</servlet-name>
         <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>checkOut</servlet-name>
+        <servlet-class>com.es.phoneshop.web.CheckOutPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>checkOut</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>overview</servlet-name>
+        <servlet-class>com.es.phoneshop.web.OverviewPageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>overview</servlet-name>
+        <url-pattern>/overview</url-pattern>
     </servlet-mapping>
 
 </web-app>
