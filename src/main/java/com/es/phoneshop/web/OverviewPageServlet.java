@@ -25,7 +25,7 @@ public class OverviewPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         Order order = orderService.getOrder(id);
-        request.setAttribute("order",order);
+        request.setAttribute("order", order);
         request.getRequestDispatcher("/WEB-INF/pages/overview.jsp").forward(request, response);
     }
 }

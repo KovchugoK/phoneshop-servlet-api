@@ -15,9 +15,6 @@ public class DosFilter implements Filter {
     private static final int INTERVAL = 3;
     private static final int MAX_COUNT_OF_REQUEST = 20;
 
-    private int maxCount = MAX_COUNT_OF_REQUEST;
-    private int interval = INTERVAL;
-    private long time;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -27,20 +24,22 @@ public class DosFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         System.out.println("Fil " + request.getRemoteAddr());
-        time = System.currentTimeMillis();
-        String adres = request.getRemoteAddr();
-        Integer count = requestCountMap.get(adres);
+        long startTime = System.currentTimeMillis();
+        String address = request.getRemoteAddr();
+        Integer count = requestCountMap.get(address);
         if (count == null) {
             count = 1;
         } else {
             count += 1;
         }
-        requestCountMap.put(adres, count);
+        requestCountMap.put(address, count);
 
-        if (count > maxCount && interval < System.currentTimeMillis() - time) {
+        if (count < MAX_COUNT_OF_REQUEST &&  System.currentTimeMillis() - INTERVAL > startTime) {
             ((HttpServletResponse) response).sendError(429);
-        } else {
 
+        } else {
+            count = 0;
+            startTime = System.currentTimeMillis();
             filterChain.doFilter(request, response);
         }
     }

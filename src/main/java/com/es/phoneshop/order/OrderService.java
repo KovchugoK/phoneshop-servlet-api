@@ -33,18 +33,13 @@ public class OrderService implements OrderServiceInterface {
     }
 
     @Override
-    public void placeOrder(Cart cart, String name, String adress, String phone) {
+    public void placeOrder(Cart cart, String name, String address, String phone) {
         Order order = new Order();
         order.setName(name);
-        order.setAdres(adress);
+        order.setAddress(address);
         order.setPhone(phone);
         List<CartItem> cartItemList = cart.getCartItems();
         order.setCartItems(cartItemList);
-        OrderItem orderItem = new OrderItem();
-        for (int i = 0; i < cartItemList.size(); i++) {
-            orderItem.setProduct(cartItemList.get(i).getProduct());
-            orderItem.setQuantity(cartItemList.get(i).getQuantity());
-        }
         order.setOrderId(generateOrderId());
         orders.add(order);
     }

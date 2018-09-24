@@ -10,8 +10,8 @@
 <div>
     <jsp:include page="/WEB-INF/pages/header.jsp"/>
 </div>
-We received your order,${order.name}.<br>
-To adress ${order.adres}.<br>
+We received your order, ${order.name}.<br>
+To address ${order.address}.<br>
 Our Sydney will contact you to this phone ${order.phone}.
 <div class="footer">
     <jsp:include page="/WEB-INF/pages/footer.jsp"/>

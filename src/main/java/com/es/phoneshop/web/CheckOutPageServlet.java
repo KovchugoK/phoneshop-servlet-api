@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CheckOutPageServlet extends HttpServlet {
     private CartService cartService;
     private OrderService orderService;
-    private long totalSum;
 
+    private static final String NAME_REGEX_EXPRESSION = "[A-Z][a-z]* +[A-Z][a-z]*";
+    private static final String ADDRESS_REGEX_EXPRESSION = "[A-Z][a-z]* +([Ss]t(reet)?.?|[Ss]q(uare)?.?|[Pp]r(osp)?.?) +[1-9]\\d*-[1-9]\\d*";
+    private static final String PHONE_REGEX_EXPRESSION = "\\+375\\d{9}";
 
     @Override
     public void init() throws ServletException {
@@ -29,7 +29,7 @@ public class CheckOutPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        totalSum = 0;
+        long totalSum = 0;
         Cart cart = cartService.getCart(request);
         List<CartItem> list = cart.getCartItems();
         for (int i = 0; i < list.size(); i++) {
@@ -52,17 +52,17 @@ public class CheckOutPageServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         orderService.placeOrder(cart, name, address, phone);
-        if (!checkWithRegExp(name, "[A-Z][a-z]* +[A-Z][a-z]*")) {
+        if (!name.matches(NAME_REGEX_EXPRESSION)) {
             request.setAttribute("nameError", true);
             request.setAttribute("nameErrorMsg", res.getString("error.name"));
             hasError = true;
         }
-        if (!checkWithRegExp(address, "[A-Z][a-z]* +([Ss]t(reet)?.?|[Ss]q(uare)?.?|[Pp]r(osp)?.?) +[1-9]\\d*-[1-9]\\d*")) {
-            request.setAttribute("adresError", true);
-            request.setAttribute("adresErrorMsg", res.getString("error.adress"));
+        if (!address.matches(ADDRESS_REGEX_EXPRESSION)) {
+            request.setAttribute("addressError", true);
+            request.setAttribute("addressErrorMsg", res.getString("error.address"));
             hasError = true;
         }
-        if (!checkWithRegExp(phone, "\\+375\\d{9}")) {
+        if (!phone.matches(PHONE_REGEX_EXPRESSION)) {
             request.setAttribute("phoneError", true);
             request.setAttribute("phoneErrorMsg", res.getString("error.phone"));
             hasError = true;
@@ -70,16 +70,11 @@ public class CheckOutPageServlet extends HttpServlet {
         if (hasError) {
             doGet(request, response);
         } else {
-                cartService.deleteCart(cart);
-                String id = orderService.getOrders().get(0).getOrderId();
-                response.sendRedirect(request.getContextPath() + "/overview" + "?id=" + id);
+            cartService.clearCart(cart);
+            String id = orderService.getOrders().get(0).getOrderId();
+            response.sendRedirect(request.getContextPath() + "/overview" + "?id=" + id);
         }
     }
 
 
-    private static boolean checkWithRegExp(String userNameString, String pattern) {
-        Pattern p = Pattern.compile(pattern);
-        Matcher m = p.matcher(userNameString);
-        return m.matches();
-    }
 }

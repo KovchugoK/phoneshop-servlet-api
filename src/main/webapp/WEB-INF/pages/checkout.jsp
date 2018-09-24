@@ -42,21 +42,21 @@
 <form method="post">
     <p>
         <label for="name">Name</label>
-        <input name="name" id="name">
+        <input name="name" id="name" value="${empty param.name ? null : param.name}">
         <c:if test="${nameError}">
             ${nameErrorMsg}
         </c:if>
     </p>
     <p>
         <label for="address">Address</label>
-        <input name="address" id="address">
-        <c:if test="${adresError}">
-            ${adresErrorMsg}
+        <input name="address" id="address" value="${empty param.address ? null : param.address}">
+        <c:if test="${addressError}">
+            ${addressErrorMsg}
         </c:if>
     </p>
     <p>
         <label for="phone">Phone</label>
-        <input name="phone" id="phone">
+        <input name="phone" id="phone" value="${empty param.phone ? null : param.phone}">
         <c:if test="${phoneError}">
             ${phoneErrorMsg}
         </c:if>

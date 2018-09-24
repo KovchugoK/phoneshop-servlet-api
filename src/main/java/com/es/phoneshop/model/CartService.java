@@ -62,9 +62,8 @@ public class CartService {
         cartItems.remove(index);
     }
 
-    public void deleteCart(Cart cart) {
-        List<CartItem> cartItems = cart.getCartItems();
-        cartItems.clear();
+    public void clearCart(Cart cart) {
+        cart.getCartItems().clear();
     }
 
 }

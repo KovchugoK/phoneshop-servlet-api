@@ -7,7 +7,16 @@ import java.util.List;
 public class Order {
     private String orderId;
     private String name;
-    private String adres;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    private String address;
     private String phone;
     private List<CartItem> cartItems;
 
@@ -35,13 +44,7 @@ public class Order {
         this.name = name;
     }
 
-    public String getAdres() {
-        return adres;
-    }
 
-    public void setAdres(String adres) {
-        this.adres = adres;
-    }
 
     public String getPhone() {
         return phone;
