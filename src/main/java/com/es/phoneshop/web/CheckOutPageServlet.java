@@ -1,6 +1,7 @@
 package com.es.phoneshop.web;
 
 import com.es.phoneshop.model.*;
+import com.es.phoneshop.order.Order;
 import com.es.phoneshop.order.OrderService;
 
 import javax.servlet.ServletException;
@@ -32,8 +33,8 @@ public class CheckOutPageServlet extends HttpServlet {
         long totalSum = 0;
         Cart cart = cartService.getCart(request);
         List<CartItem> list = cart.getCartItems();
-        for (int i = 0; i < list.size(); i++) {
-            totalSum += list.get(i).getProduct().getPrice().intValue();
+        for (CartItem cartItem : list) {
+            totalSum += cartItem.getProduct().getPrice().intValue();
         }
         request.setAttribute("cart", cart);
         request.setAttribute("totalSum", totalSum);
@@ -51,7 +52,6 @@ public class CheckOutPageServlet extends HttpServlet {
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
-        orderService.placeOrder(cart, name, address, phone);
         if (!name.matches(NAME_REGEX_EXPRESSION)) {
             request.setAttribute("nameError", true);
             request.setAttribute("nameErrorMsg", res.getString("error.name"));
@@ -70,8 +70,9 @@ public class CheckOutPageServlet extends HttpServlet {
         if (hasError) {
             doGet(request, response);
         } else {
+            Order order = orderService.placeOrder(cart, name, address, phone);
             cartService.clearCart(cart);
-            String id = orderService.getOrders().get(0).getOrderId();
+            String id = order.getOrderId();
             response.sendRedirect(request.getContextPath() + "/overview" + "?id=" + id);
         }
     }
