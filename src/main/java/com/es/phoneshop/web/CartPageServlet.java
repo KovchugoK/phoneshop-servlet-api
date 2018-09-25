@@ -41,32 +41,10 @@ public class CartPageServlet extends HttpServlet {
         Cart cart = cartService.getCart(request);
         int quantity;
         Product product;
-
         if (deleteValue != null) {
-            int deleteIndex = Integer.valueOf(deleteValue);
-            product = cartService.getCart(request).getCartItems().get(deleteIndex).getProduct();
-            request.setAttribute("sucsess", true);
-            request.setAttribute("sucsessMsg", res.getString("sucsess.msg.delete"));
-            cartService.deleteProduct(cart, product, deleteIndex);
+            deleteProduct(request, deleteValue, res, cart);
         } else {
-            for (int i = 0; i < productIds.length; i++) {
-                product = productDao.getProduct(Long.valueOf(productIds[i]));
-                try {
-                    quantity = DecimalFormat.getInstance(locale).parse(quantities[i]).intValue();
-                    if (quantity < 0) {
-                        throw new IllegalArgumentException();
-                    }
-                    cartService.update(cart, product, quantity);
-                    request.setAttribute("sucsess", true);
-                    request.setAttribute("sucsessMsg", res.getString("sucsess.msg.update"));
-                } catch (ParseException e) {
-                    errors[i] = res.getString("error.number.format");
-                    hasErrors = true;
-                } catch (IllegalArgumentException e) {
-                    errors[i] = res.getString("error.number.less.then.zero");
-                    hasErrors = true;
-                }
-            }
+            hasErrors = isHasErrorsAndUpdate(request, hasErrors, productIds, quantities, errors, locale, res, cart);
         }
         if (hasErrors) {
             request.setAttribute("quantities", quantities);
@@ -76,6 +54,40 @@ public class CartPageServlet extends HttpServlet {
         } else {
             doGet(request, response);
         }
+    }
+
+    private boolean isHasErrorsAndUpdate(HttpServletRequest request, boolean hasErrors, String[] productIds, String[] quantities, String[] errors, Locale locale, ResourceBundle res, Cart cart) {
+
+        Product product;
+        int quantity;
+        for (int i = 0; i < productIds.length; i++) {
+            product = productDao.getProduct(Long.valueOf(productIds[i]));
+            try {
+                quantity = DecimalFormat.getInstance(locale).parse(quantities[i]).intValue();
+                if (quantity < 0) {
+                    throw new IllegalArgumentException();
+                }
+                cartService.update(cart, product, quantity);
+                request.setAttribute("sucsess", true);
+                request.setAttribute("sucsessMsg", res.getString("sucsess.msg.update"));
+            } catch (ParseException e) {
+                errors[i] = res.getString("error.number.format");
+                hasErrors = true;
+            } catch (IllegalArgumentException e) {
+                errors[i] = res.getString("error.number.less.then.zero");
+                hasErrors = true;
+            }
+        }
+        return hasErrors;
+    }
+
+    private void deleteProduct(HttpServletRequest request, String deleteValue, ResourceBundle res, Cart cart) {
+        Product product;
+        int deleteIndex = Integer.valueOf(deleteValue);
+        product = cartService.getCart(request).getCartItems().get(deleteIndex).getProduct();
+        request.setAttribute("sucsess", true);
+        request.setAttribute("sucsessMsg", res.getString("sucsess.msg.delete"));
+        cartService.deleteProduct(cart, product, deleteIndex);
     }
 
     private void showPage(Cart cart, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
