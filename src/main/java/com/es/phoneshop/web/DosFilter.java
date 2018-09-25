@@ -24,7 +24,6 @@ public class DosFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("Fil " + request.getRemoteAddr());
         String address = request.getRemoteAddr();
         Integer count = requestCountMap.get(address);
         if (count == null) {
