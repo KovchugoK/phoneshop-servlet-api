@@ -13,7 +13,7 @@ public class DosFilter implements Filter {
     private Map<String, Integer> requestCountMap = Collections.synchronizedMap(new HashMap<>());
     private Map<String, Long> requestTimeMap = Collections.synchronizedMap(new HashMap<>());
 
-    private static final int INTERVAL = 5;
+    private static final int INTERVAL = 5000;
     private static final int MAX_COUNT_OF_REQUEST = 20;
 
 
