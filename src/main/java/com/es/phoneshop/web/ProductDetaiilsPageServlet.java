@@ -17,12 +17,14 @@ import java.util.ResourceBundle;
 public class ProductDetaiilsPageServlet extends HttpServlet {
     private ProductDao productDao;
     private CartService cartService;
+    private CompareServise compareServise;
 
     @Override
     public void init() throws ServletException {
         super.init();
         productDao = ArrayListProductDao.getInstance();
         cartService = CartService.getInstance();
+        compareServise = CompareServise.getInstance();
     }
 
     @Override
@@ -40,6 +42,10 @@ public class ProductDetaiilsPageServlet extends HttpServlet {
         Locale.setDefault(new Locale("en", "US"));
         Locale locale = request.getLocale();
         ResourceBundle res = ResourceBundle.getBundle("message", locale);
+        if (request.getParameter("hidden") != null) {
+            Compare compare = compareServise.get(request);
+            compareServise.add(compare, product);
+        }
         try {
             quantity = DecimalFormat.getInstance(locale).parse(request.getParameter("quantity")).intValue();
             if (quantity < 0) {

@@ -15,9 +15,10 @@ public class SampleDataServletContextListener implements ServletContextListener 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         productDao = ArrayListProductDao.getInstance();
-        productDao.save(new Product(1L, "code1", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
-        productDao.save(new Product(2L, "code2", "decription2", new BigDecimal(10),Currency.getInstance(Locale.US), 1));
-        productDao.save(new Product(3L, "code3", "decription3", new BigDecimal(10),Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(1L, "code", "decription1", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(2L, "this prod", "test  ", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(3L, "code3", "NEW PRODUCT", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
+        productDao.save(new Product(4L, "code", "new Test", new BigDecimal(10), Currency.getInstance(Locale.US), 1));
     }
 
     @Override

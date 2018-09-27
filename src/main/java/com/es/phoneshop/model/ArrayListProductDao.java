@@ -1,7 +1,12 @@
 package com.es.phoneshop.model;
 
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -37,15 +42,19 @@ public class ArrayListProductDao implements ProductDao {
                 .orElseThrow(() -> new IllegalArgumentException("There is no element with such id"));
     }
 
-    public synchronized List<Product> findProducts() {
+    public synchronized List<Product> findProducts(HttpServletRequest request) {
+
+
         return productList.stream()
                 .filter((p) -> p.getPrice().compareTo(BigDecimal.ZERO) > 0 && p.getStock() > 0)
                 .collect(Collectors.toList());
+
+
     }
 
     public synchronized void save(Product product) {
-            productList.remove(product);
-            productList.add(product);
+        productList.remove(product);
+        productList.add(product);
 
     }
 
