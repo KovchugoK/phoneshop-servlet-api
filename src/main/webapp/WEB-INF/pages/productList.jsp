@@ -8,7 +8,7 @@
 </head>
 <body class="bodyStile">
 <div>
-    <jsp:include page="/WEB-INF/pages/header.jsp" />
+    <jsp:include page="/WEB-INF/pages/header.jsp"/>
 </div>
 <div>
     <table>
@@ -36,8 +36,15 @@
         </c:forEach>
     </table>
 </div>
+<form method="post">
+    <input name="search" id="search" value="${empty param.search ? null : param.search}">
+    <input type="submit" value="Search">
+    <c:if test="${error}">
+        <label for="search">${errorMsg}</label>
+    </c:if>
+</form>
 <div class="footer">
-    <jsp:include page="/WEB-INF/pages/footer.jsp" />
+    <jsp:include page="/WEB-INF/pages/footer.jsp"/>
 </div>
 </body>
 </html>

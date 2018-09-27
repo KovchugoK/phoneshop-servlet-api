@@ -68,4 +68,13 @@
         <url-pattern>/overview</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>comparePege</servlet-name>
+        <servlet-class>com.es.phoneshop.web.ComparePageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>comparePege</servlet-name>
+        <url-pattern>/comparePage</url-pattern>
+    </servlet-mapping>
 </web-app>
